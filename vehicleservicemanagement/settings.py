@@ -1,6 +1,6 @@
 from pathlib import Path
 import os
-import django_heroku
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
@@ -137,5 +137,6 @@ EMAIL_HOST_USER = 'dhojusagar619@gmail.com'
 EMAIL_HOST_PASSWORD = '@dh0jus@g@r414'
 EMAIL_RECEIVING_USER = ['saagardhoju414@gmail.com']
 
-django_heroku.settings(locals())
+
+
 
