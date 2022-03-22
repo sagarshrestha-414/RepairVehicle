@@ -68,24 +68,40 @@ WSGI_APPLICATION = 'vehicleservicemanagement.wsgi.application'
 
 
 
+# DATABASES = {
+#
+#     'default': {
+#
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#
+#         'NAME': 'vehicledb',
+#
+#         'USER': 'postgres',
+#
+#         'PASSWORD': '@9860463035',
+#
+#         'HOST': 'localhost',
+#
+#         'PORT': '5432',
+#  }
+# }
 DATABASES = {
 
     'default': {
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'NAME': 'vehicledb',
+        'NAME': 'dv7h01mj9od00',
 
-        'USER': 'postgres',
+        'USER': 'yxonisrwlmfayu',
 
-        'PASSWORD': '@9860463035',
+        'PASSWORD': '80c59cb0a42b0187d8738108f83c6aa2d94e1aefcb30798c68bbdbd97c6e9d95',
 
-        'HOST': 'localhost',
+        'HOST': 'ec2-3-225-213-67.compute-1.amazonaws.com',
 
         'PORT': '5432',
  }
 }
-
 
 
 AUTH_PASSWORD_VALIDATORS = [
