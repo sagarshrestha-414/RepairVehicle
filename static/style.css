@@ -53,6 +53,9 @@
   background: var(--danger-color);
 }
 
+.bg-info {
+  background: var(--info-color);
+}
 * {
 	box-sizing: border-box;
 }

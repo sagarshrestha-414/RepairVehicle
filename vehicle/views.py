@@ -1,9 +1,9 @@
 from django.contrib import messages
 from django.shortcuts import render,redirect,reverse
 
-from vehicle.models import problemcost
+from vehicle.models import problemcost, Request
 from . import forms,models
-from django.db.models import Sum
+from django.db.models import Sum, Count
 from django.core.mail import send_mail
 from django.contrib.auth.models import Group
 from django.http import HttpResponseRedirect
@@ -25,9 +25,15 @@ def home_view(request):
         #
         # }
         return HttpResponseRedirect('afterlogin')
+    # obj=Request.objects.raw('select * from vehicle_request group by id having count(problem_description)>1')
+    obj1=Request.objects.all().values('problem_description').annotate(total=Count('problem_description')).order_by('-total')
+    # pdb.set_trace()
+
     return render(request,'vehicle/index.html',context={
         'total_customer':models.Customer.objects.all().count(),
         'total_request':models.Request.objects.all().count(),
+        'obj':obj1,
+
         })
 
 def deleteproblem(request,id):
@@ -35,7 +41,9 @@ def deleteproblem(request,id):
     pcost.delete()
     return redirect('../')
 
-
+# def duplicate(request):
+#     obj=Request.objects.raw('select reqid,problem_description,cost from vehicle_request group by problem_description having count(problem_description)>1')
+#     return render(request,'index.html',{"dup":obj})
 
 def customerclick_view(request):
     if request.user.is_authenticated:

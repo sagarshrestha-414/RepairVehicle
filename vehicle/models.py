@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 class Customer(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
-    profile_pic= models.ImageField(upload_to='profile_pic/CustomerProfilePic/',null=True,blank=True)
+    profile_pic= models.ImageField(upload_to='profile_pic/CustomerProfilePic/',default="download.jpg",null=True,blank=True)
     address = models.CharField(max_length=40)
     mobile = models.CharField(max_length=20,null=False)
     @property
@@ -17,7 +17,7 @@ class Customer(models.Model):
 
 class Mechanic(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
-    profile_pic= models.ImageField(upload_to='profile_pic/MechanicProfilePic/',null=True,blank=True)
+    profile_pic= models.ImageField(upload_to='profile_pic/MechanicProfilePic/',default="download.jpg",null=True,blank=True)
     address = models.CharField(max_length=40)
     mobile = models.CharField(max_length=20,null=False)
     skill = models.CharField(max_length=500,null=True)
@@ -34,6 +34,7 @@ class Mechanic(models.Model):
 
 
 class Request(models.Model):
+
     cat=(('two wheeler with gear','two wheeler with gear'),('two wheeler without gear','two wheeler without gear'),('three wheeler','three wheeler'),('four wheeler','four wheeler'))
     category=models.CharField(max_length=50,choices=cat)
 
@@ -54,6 +55,9 @@ class Request(models.Model):
 
     def __str__(self):
         return self.problem_description
+
+    class meta:
+        db_table="vehicle_request"
 
 class Attendance(models.Model):
     mechanic=models.ForeignKey('Mechanic',on_delete=models.CASCADE,null=True)

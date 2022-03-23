@@ -62,7 +62,57 @@
 			</div>
 
 		</div>
+	  <div class="row">
+			<div class="col-3 col-m-12 col-sm-12">
+					<p><center>
+						<i class="fas fa-question"></i>
+						</center>
+					</p>
+
+					<div class="card-header">
+
+					<h3 style="color:red;text-align:center" >Most Common Problems
+						</h3>
+					<form class="navbar-search">
+						<input type="text" name="Search" id="Search21" class="navbar-search-input" placeholder="What you looking for...">
+						<i class="fas fa-search"></i>
+						</form>
+					</div>
+					<div class="card-content">
+					<table id="myTable21" >
+							<thead>
+								<tr>
+
+									<th><center>Problem Description</center></th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for result in obj %}
+								<tr>
+
+									<td><center>{{result.problem_description}}</center></td>
+								</tr>
+								{% endfor %}
+
+							</tbody>
+						</table>
+				</div>
+				</div>
+
+	  </div>
   </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#Search21").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable21 tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+ });
+
+</script>
   {% include "vehicle/footer.html" %}
 </body>
 

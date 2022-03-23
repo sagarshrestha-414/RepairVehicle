@@ -18,7 +18,7 @@ SECRET_KEY = 'ftxnh_7475z^joy_*l9t*qnqow!@)y#(541^w1=(8--=3g#4*d'
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost','repairgarage.herokuapp.com']
-
+# ALLOWED_HOSTS = ['localhost','127.0.0.1']
 
 
 
@@ -150,8 +150,9 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'dhojusagar619@gmail.com'
 EMAIL_HOST_PASSWORD = '@dh0jus@g@r414'
-EMAIL_RECEIVING_USER = ['saagardhoju414@gmail.com']
+# EMAIL_RECEIVING_USER = ['saagardhoju414@gmail.com']
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 
 
