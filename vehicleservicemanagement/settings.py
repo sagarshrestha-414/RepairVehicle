@@ -18,7 +18,7 @@ SECRET_KEY = 'ftxnh_7475z^joy_*l9t*qnqow!@)y#(541^w1=(8--=3g#4*d'
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost','repairgarage.herokuapp.com']
-ALLOWED_HOSTS = ['localhost','127.0.0.1']
+# ALLOWED_HOSTS = ['localhost','127.0.0.1']
 
 
 
@@ -68,40 +68,40 @@ WSGI_APPLICATION = 'vehicleservicemanagement.wsgi.application'
 
 
 
-DATABASES = {
-
-    'default': {
-
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-
-        'NAME': 'vehicledb',
-
-        'USER': 'postgres',
-
-        'PASSWORD': '@9860463035',
-
-        'HOST': 'localhost',
-
-        'PORT': '5432',
- }
-}
 # DATABASES = {
 #
 #     'default': {
 #
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #
-#         'NAME': 'dv7h01mj9od00',
+#         'NAME': 'vehicledb',
 #
-#         'USER': 'yxonisrwlmfayu',
+#         'USER': 'postgres',
 #
-#         'PASSWORD': '80c59cb0a42b0187d8738108f83c6aa2d94e1aefcb30798c68bbdbd97c6e9d95',
+#         'PASSWORD': '@9860463035',
 #
-#         'HOST': 'ec2-3-225-213-67.compute-1.amazonaws.com',
+#         'HOST': 'localhost',
 #
 #         'PORT': '5432',
 #  }
 # }
+DATABASES = {
+
+    'default': {
+
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+
+        'NAME': 'dv7h01mj9od00',
+
+        'USER': 'yxonisrwlmfayu',
+
+        'PASSWORD': '80c59cb0a42b0187d8738108f83c6aa2d94e1aefcb30798c68bbdbd97c6e9d95',
+
+        'HOST': 'ec2-3-225-213-67.compute-1.amazonaws.com',
+
+        'PORT': '5432',
+ }
+}
 
 
 AUTH_PASSWORD_VALIDATORS = [
