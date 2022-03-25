@@ -122,7 +122,7 @@ body {
 	border: none;
 	padding: 12px 50px 12px 50px;
 	width: 100%;
-	outline: none;
+	outline: auto;
 	color: var(--main-color);
 	border-radius: 20px;
 }
