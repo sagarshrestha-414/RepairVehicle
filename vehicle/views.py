@@ -19,14 +19,10 @@ def home_view(request):
         for enq in enquiry:
             customer=models.Customer.objects.get(id=enq.customer_id)
             customers.append(customer)
-        # dict={
-        # 'total_customer':models.Customer.objects.all().count(),
-        # 'total_request':models.Request.objects.all().count(),
-        #
-        # }
+
         return HttpResponseRedirect('afterlogin')
-    # obj=Request.objects.raw('select * from vehicle_request group by id having count(problem_description)>1')
     obj1=Request.objects.all().values('problem_description').annotate(total=Count('problem_description')).order_by('-total')
+
     # pdb.set_trace()
 
     return render(request,'vehicle/index.html',context={
@@ -138,9 +134,22 @@ def admin_dashboard_view(request):
     for enq in enquiry:
         customer=models.Customer.objects.get(id=enq.customer_id)
         customers.append(customer)
-    pro = problemcost.objects.all().order_by("Cost")
+    pro = problemcost.objects.all()
+    array=[]
+    for p in pro:
+        array.append(p.Cost)
+    # pdb.set_trace()
+    sorted_array=insertion_sort_view(array)
+
+    pcost=[]
+    for a in sorted_array:
+        for p in pro:
+            if a==p.Cost:
+                pcost.append(p)
+
+    # pdb.set_trace()
     dict={
-    'problem': pro,
+    'problem': pcost,
     'total_customer':models.Customer.objects.all().count(),
     'total_mechanic':models.Mechanic.objects.all().count(),
     'total_request':models.Request.objects.all().count(),
@@ -148,6 +157,19 @@ def admin_dashboard_view(request):
     'data':zip(customers,enquiry),
     }
     return render(request,'vehicle/admin_dashboard.html',context=dict)
+
+
+def insertion_sort_view(array):
+    for i in range(1, len(array)):
+        key_item = array[i]
+        j = i - 1
+        while j >= 0 and array[j] > key_item:
+            array[j + 1] = array[j]
+            j -= 1
+        array[j + 1] = key_item
+    final_array=list(dict.fromkeys(array))
+
+    return final_array
 
 
 
@@ -213,16 +235,25 @@ def admin_add_customer_view(request):
 @login_required(login_url='adminlogin')
 def admin_view_customer_enquiry_view(request):
     enquiry=models.Request.objects.all().order_by('-id')
+    array=[]
+    for e in enquiry:
+        array.append(e.cost)
+    sorted_array=insertion_sort_view(array)
+    enquiry_array=[]
+    for s in sorted_array:
+        for e in enquiry:
+            if s==e.cost:
+                enquiry_array.append(e)
     customers=[]
-    for enq in enquiry:
+    for enq in enquiry_array:
         customer=models.Customer.objects.get(id=enq.customer_id)
         customers.append(customer)
-    return render(request,'vehicle/admin_view_customer_enquiry.html',{'data':zip(customers,enquiry)})
+    return render(request,'vehicle/admin_view_customer_enquiry.html',{'data':zip(customers,enquiry_array)})
 
 
 @login_required(login_url='adminlogin')
 def admin_view_customer_invoice_view(request):
-    enquiry=models.Request.objects.values('customer_id').annotate(Sum('cost'))
+    enquiry=models.Request.objects.values('customer_id').annotate(Sum('cost')).order_by('cost')
     print(enquiry)
     customers=[]
     for enq in enquiry:
@@ -328,7 +359,7 @@ def update_mechanic_view(request,pk):
 
 @login_required(login_url='adminlogin')
 def admin_view_mechanic_salary_view(request):
-    mechanics=models.Mechanic.objects.all()
+    mechanics=models.Mechanic.objects.all().order_by('salary')
     return render(request,'vehicle/admin_view_mechanic_salary.html',{'mechanics':mechanics})
 
 @login_required(login_url='adminlogin')
@@ -431,7 +462,7 @@ def approve_request_view(request,pk):
 
 @login_required(login_url='adminlogin')
 def admin_view_service_cost_view(request):
-    enquiry=models.Request.objects.all().order_by('-id')
+    enquiry=models.Request.objects.all().order_by('cost')
     customers=[]
     for enq in enquiry:
         customer=models.Customer.objects.get(id=enq.customer_id)
@@ -502,7 +533,7 @@ def admin_view_attendance_view(request):
 
 @login_required(login_url='adminlogin')
 def admin_report_view(request):
-    reports=models.Request.objects.all().filter(Q(status="Repairing Done") | Q(status="Released"))
+    reports=models.Request.objects.all().filter(Q(status="Repairing Done") | Q(status="Released")).order_by('cost')
     dict={
         'reports':reports,
     }
@@ -570,7 +601,7 @@ def customer_view_approved_request_view(request):
 @user_passes_test(is_customer)
 def customer_view_approved_request_invoice_view(request):
     customer=models.Customer.objects.get(user_id=request.user.id)
-    enquiries=models.Request.objects.all().filter(customer_id=customer.id).exclude(status='Pending')
+    enquiries=models.Request.objects.all().filter(customer_id=customer.id).exclude(status='Pending').order_by('cost')
     return render(request,'vehicle/customer_view_approved_request_invoice.html',{'customer':customer,'enquiries':enquiries})
 
 
@@ -624,7 +655,7 @@ def edit_customer_profile_view(request):
 @user_passes_test(is_customer)
 def customer_invoice_view(request):
     customer=models.Customer.objects.get(user_id=request.user.id)
-    enquiries=models.Request.objects.all().filter(customer_id=customer.id).exclude(status='Pending')
+    enquiries=models.Request.objects.all().filter(customer_id=customer.id).exclude(status='Pending').order_by('cost')
     return render(request,'vehicle/customer_invoice.html',{'customer':customer,'enquiries':enquiries})
 
 
@@ -740,16 +771,6 @@ def edit_mechanic_profile_view(request):
             mechanicForm.save()
             return redirect('mechanic-profile')
     return render(request,'vehicle/edit_mechanic_profile.html',context=mydict)
-
-
-
-
-
-
-
-
-
-
 
 def aboutus_view(request):
     return render(request,'vehicle/aboutus.html')
